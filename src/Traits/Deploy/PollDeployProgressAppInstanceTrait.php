@@ -5,8 +5,8 @@ namespace FreedomtechHosting\PolydockAppAmazeeioGeneric\Traits\Deploy;
 use FreedomtechHosting\PolydockApp\Enums\PolydockAppInstanceStatus;
 use FreedomtechHosting\PolydockApp\PolydockAppInstanceInterface;
 
-trait PollDeployProgressAppInstanceTrait {
-
+trait PollDeployProgressAppInstanceTrait
+{
     public function pollAppInstanceDeploymentProgress(PolydockAppInstanceInterface $appInstance): PolydockAppInstanceInterface
     {
         $functionName = __FUNCTION__;
@@ -17,21 +17,21 @@ trait PollDeployProgressAppInstanceTrait {
         $validateLagoonProjectId = true;
 
         $possibleDeploymentStatusesToPolydockAppInstanceStatus = [
-            'new' => PolydockAppInstanceStatus::DEPLOY_RUNNING, 
-            'pending' => PolydockAppInstanceStatus::DEPLOY_RUNNING, 
-            'running' => PolydockAppInstanceStatus::DEPLOY_RUNNING, 
-            'cancelled' => PolydockAppInstanceStatus::DEPLOY_FAILED, 
-            'error' => PolydockAppInstanceStatus::DEPLOY_FAILED, 
-            'failed' => PolydockAppInstanceStatus::DEPLOY_FAILED, 
+            'new' => PolydockAppInstanceStatus::DEPLOY_RUNNING,
+            'pending' => PolydockAppInstanceStatus::DEPLOY_RUNNING,
+            'running' => PolydockAppInstanceStatus::DEPLOY_RUNNING,
+            'cancelled' => PolydockAppInstanceStatus::DEPLOY_FAILED,
+            'error' => PolydockAppInstanceStatus::DEPLOY_FAILED,
+            'failed' => PolydockAppInstanceStatus::DEPLOY_FAILED,
             'complete' => PolydockAppInstanceStatus::DEPLOY_COMPLETED,
         ];
 
-        $this->info($functionName . ': starting', $logContext);
-    
+        $this->info($functionName.': starting', $logContext);
+
         // Throws PolydockAppInstanceStatusFlowException
         $this->validateAppInstanceStatusIsExpectedAndConfigureLagoonClientAndVerifyLagoonValues(
             $appInstance,
-            PolydockAppInstanceStatus::DEPLOY_RUNNING, 
+            PolydockAppInstanceStatus::DEPLOY_RUNNING,
             $logContext,
             $testLagoonPing,
             $validateLagoonValues,
@@ -39,30 +39,31 @@ trait PollDeployProgressAppInstanceTrait {
             $validateLagoonProjectId
         );
 
-        $projectName = $appInstance->getKeyValue("lagoon-project-name");
-        $projectId = $appInstance->getKeyValue("lagoon-project-id");
-        $deployEnvironment = $appInstance->getKeyValue("lagoon-deploy-branch");
-        $latestDeploymentName = $appInstance->getKeyValue("lagoon-latest-deployment-name");
+        $projectName = $appInstance->getKeyValue('lagoon-project-name');
+        $projectId = $appInstance->getKeyValue('lagoon-project-id');
+        $deployEnvironment = $appInstance->getKeyValue('lagoon-deploy-branch');
+        $latestDeploymentName = $appInstance->getKeyValue('lagoon-latest-deployment-name');
 
         $logContext['projectName'] = $projectName;
         $logContext['projectId'] = $projectId;
         $logContext['deployEnvironment'] = $deployEnvironment;
         $logContext['latestDeploymentName'] = $latestDeploymentName;
 
-        $this->info($functionName . ': polling for project: ' . $projectName . ' (' . $projectId . ')' 
-            . ' and environment: ' . $deployEnvironment 
-            . ' and deployment name: ' . $latestDeploymentName, $logContext);
+        $this->info($functionName.': polling for project: '.$projectName.' ('.$projectId.')'
+            .' and environment: '.$deployEnvironment
+            .' and deployment name: '.$latestDeploymentName, $logContext);
 
         $deploymentStatus = $this->lagoonClient->getProjectDeploymentByProjectIdDeploymentName(
-            $projectId, 
+            $projectId,
             $deployEnvironment,
             $latestDeploymentName
         );
 
-        $this->debug($functionName . ': deployment status: ' . json_encode($deploymentStatus), $logContext);
+        $this->debug($functionName.': deployment status: '.json_encode($deploymentStatus), $logContext);
 
         if (isset($deploymentStatus['error'])) {
             $this->error($deploymentStatus['error'][0]['message'], $logContext);
+
             return $appInstance;
         }
 
@@ -82,26 +83,27 @@ trait PollDeployProgressAppInstanceTrait {
         $logContext['deploymentStarted'] = $deploymentStarted;
         $logContext['deploymentCompleted'] = $deploymentCompleted;
 
-        $appInstance->info($functionName . ': deployment status: ' . $deploymentStatus, $logContext);
+        $appInstance->info($functionName.': deployment status: '.$deploymentStatus, $logContext);
 
         $emptyFields = [];
-        if(empty($deploymentId)) {
-            $appInstance->warning("Deployment id is empty", $logContext);
-            $emptyFields[] = "deploymentId";
+        if (empty($deploymentId)) {
+            $appInstance->warning('Deployment id is empty', $logContext);
+            $emptyFields[] = 'deploymentId';
         }
 
-        if(empty($deploymentName)) {
-            $appInstance->warning("Deployment name is empty", $logContext);
-            $emptyFields[] = "deploymentName";
+        if (empty($deploymentName)) {
+            $appInstance->warning('Deployment name is empty', $logContext);
+            $emptyFields[] = 'deploymentName';
         }
 
-        if(empty($deploymentStatus)) {
-            $appInstance->warning("Deployment status is empty", $logContext);
-            $emptyFields[] = "deploymentStatus";
+        if (empty($deploymentStatus)) {
+            $appInstance->warning('Deployment status is empty', $logContext);
+            $emptyFields[] = 'deploymentStatus';
         }
 
-        if(count($emptyFields) > 0) {
-            $appInstance->warning("Required deployment status fields are empty: " . implode(", ", $emptyFields), $logContext);
+        if (count($emptyFields) > 0) {
+            $appInstance->warning('Required deployment status fields are empty: '.implode(', ', $emptyFields), $logContext);
+
             return $appInstance;
         }
 
@@ -114,20 +116,21 @@ trait PollDeployProgressAppInstanceTrait {
         $currentPolydockAppInstanceStatus = $appInstance->getStatus();
         $fetchedDeploymentStatus = $possibleDeploymentStatusesToPolydockAppInstanceStatus[$deploymentStatus] ?? null;
 
-        if(empty($fetchedDeploymentStatus)) {
-            $appInstance->warning("Unknown deployment status: " . $deploymentStatus, $logContext);
+        if (empty($fetchedDeploymentStatus)) {
+            $appInstance->warning('Unknown deployment status: '.$deploymentStatus, $logContext);
+
             return $appInstance;
         }
 
-        if($currentPolydockAppInstanceStatus !== $fetchedDeploymentStatus) {
+        if ($currentPolydockAppInstanceStatus !== $fetchedDeploymentStatus) {
             $appInstance->setStatus(
-                $possibleDeploymentStatusesToPolydockAppInstanceStatus[$deploymentStatus], 
-                    "Deploy is " . $deploymentStatus
+                $possibleDeploymentStatusesToPolydockAppInstanceStatus[$deploymentStatus],
+                'Deploy is '.$deploymentStatus
             )->save();
         }
 
-        $appInstance->info($functionName . " - deploy status successfully polled and updated", $logContext);
-        
+        $appInstance->info($functionName.' - deploy status successfully polled and updated', $logContext);
+
         return $appInstance;
     }
 }
