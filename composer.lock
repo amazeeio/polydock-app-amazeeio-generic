@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e9e9cd1abc5abcb9e9cef00a2ecbae7b",
+    "content-hash": "fbf508986a49b57aa61593ace5fdb342",
     "packages": [
         {
             "name": "blade-ui-kit/blade-heroicons",
@@ -816,16 +816,16 @@
         },
         {
             "name": "freedomtech-hosting/polydock-app",
-            "version": "v0.0.26",
+            "version": "v0.0.27",
             "source": {
                 "type": "git",
                 "url": "https://github.com/amazeeio/polydock-app-lib.git",
-                "reference": "aa6cfc7601b6eeedb6e04e01aaa61b1e84b6b00c"
+                "reference": "68acaa5e227d356c3e6b0136f2153368bb05e8f5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/amazeeio/polydock-app-lib/zipball/aa6cfc7601b6eeedb6e04e01aaa61b1e84b6b00c",
-                "reference": "aa6cfc7601b6eeedb6e04e01aaa61b1e84b6b00c",
+                "url": "https://api.github.com/repos/amazeeio/polydock-app-lib/zipball/68acaa5e227d356c3e6b0136f2153368bb05e8f5",
+                "reference": "68acaa5e227d356c3e6b0136f2153368bb05e8f5",
                 "shasum": ""
             },
             "require": {
@@ -850,9 +850,9 @@
             "description": "Library for Polydock Apps",
             "support": {
                 "issues": "https://github.com/amazeeio/polydock-app-lib/issues",
-                "source": "https://github.com/amazeeio/polydock-app-lib/tree/v0.0.26"
+                "source": "https://github.com/amazeeio/polydock-app-lib/tree/v0.0.27"
             },
-            "time": "2025-04-11T19:57:05+00:00"
+            "time": "2026-02-11T17:52:58+00:00"
         },
         {
             "name": "fruitcake/php-cors",
