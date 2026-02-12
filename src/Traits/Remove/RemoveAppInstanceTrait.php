@@ -59,7 +59,11 @@ trait RemoveAppInstanceTrait
         );
 
         if (isset($removedEnvironment['error'])) {
-            $this->error($removedEnvironment['error'][0]['message']);
+            // Handle both array errors (from GraphQL) and string errors (from not found)
+            $errorMessage = is_array($removedEnvironment['error'])
+                ? ($removedEnvironment['error'][0]['message'] ?? json_encode($removedEnvironment['error']))
+                : $removedEnvironment['error'];
+            $this->error($errorMessage);
             $appInstance->setStatus(PolydockAppInstanceStatus::REMOVE_FAILED, 'Failed to remove Lagoon environment', $logContext + ['error' => $removedEnvironment['error']])->save();
 
             return $appInstance;

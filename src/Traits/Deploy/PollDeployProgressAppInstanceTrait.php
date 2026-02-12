@@ -62,7 +62,11 @@ trait PollDeployProgressAppInstanceTrait
         $this->debug($functionName.': deployment status: '.json_encode($deploymentStatus), $logContext);
 
         if (isset($deploymentStatus['error'])) {
-            $this->error($deploymentStatus['error'][0]['message'], $logContext);
+            // Handle both array errors (from GraphQL) and string errors (from not found)
+            $errorMessage = is_array($deploymentStatus['error'])
+                ? ($deploymentStatus['error'][0]['message'] ?? json_encode($deploymentStatus['error']))
+                : $deploymentStatus['error'];
+            $this->error($errorMessage, $logContext);
 
             return $appInstance;
         }

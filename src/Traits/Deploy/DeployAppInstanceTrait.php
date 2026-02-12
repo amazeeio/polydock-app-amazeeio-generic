@@ -59,7 +59,11 @@ trait DeployAppInstanceTrait
         );
 
         if (isset($createdDeployment['error'])) {
-            $this->error($createdDeployment['error'][0]['message'], $logContext);
+            // Handle both array errors (from GraphQL) and string errors (from not found)
+            $errorMessage = is_array($createdDeployment['error'])
+                ? ($createdDeployment['error'][0]['message'] ?? json_encode($createdDeployment['error']))
+                : $createdDeployment['error'];
+            $this->error($errorMessage, $logContext);
             $appInstance->setStatus(PolydockAppInstanceStatus::DEPLOY_FAILED, 'Failed to create Lagoon project', $logContext + ['error' => $createdDeployment['error']])->save();
 
             return $appInstance;

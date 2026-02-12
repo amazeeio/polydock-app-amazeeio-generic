@@ -63,8 +63,12 @@ trait PostCreateAppInstanceTrait
             );
 
             if (isset($addGroupToProjectResult['error'])) {
-                $this->error($addGroupToProjectResult['error'][0]['message']);
-                throw new \Exception($addGroupToProjectResult['error'][0]['message']);
+                // Handle both array errors (from GraphQL) and string errors (from not found)
+                $errorMessage = is_array($addGroupToProjectResult['error'])
+                    ? ($addGroupToProjectResult['error'][0]['message'] ?? json_encode($addGroupToProjectResult['error']))
+                    : $addGroupToProjectResult['error'];
+                $this->error($errorMessage);
+                throw new \Exception($errorMessage);
             }
 
             if (! isset($addGroupToProjectResult['addGroupsToProject']) || ! isset($addGroupToProjectResult['addGroupsToProject']['id'])) {
