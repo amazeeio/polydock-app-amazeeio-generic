@@ -16,6 +16,7 @@ class PolydockApp extends PolydockAppBase
 ```
 
 **Features:**
+
 - Full lifecycle management (create, deploy, upgrade, remove)
 - Lagoon API integration
 - Health monitoring
@@ -36,13 +37,13 @@ class PolydockAiApp extends PolydockApp implements HasStoreAppFormFields
 ```
 
 **Features:**
+
 - Everything from `PolydockApp`
 - AI backend client integration
 - Custom Store App form fields support
 - Encrypted field storage
 
 [Full documentation →](./docs/PolydockAiApp.md)
-
 
 ## Extending
 
@@ -70,10 +71,10 @@ class MyCustomApp extends PolydockApp
     public function postDeployAppInstance($appInstance)
     {
         $appInstance = parent::postDeployAppInstance($appInstance);
-        
+
         // Custom post-deploy logic
         $this->info('Custom deployment complete');
-        
+
         return $appInstance;
     }
 }
@@ -95,7 +96,7 @@ use FreedomtechHosting\PolydockAppAmazeeioGeneric\PolydockAiApp;
 #[PolydockAppStoreFields]
 class MyAiApp extends PolydockAiApp
 {
-    public static function getStoreAppFormSchema(): array
+    public static function getStoreFormSchema(): array
     {
         return [
             Forms\Components\Section::make('AI Configuration')
@@ -110,7 +111,7 @@ class MyAiApp extends PolydockAiApp
         ];
     }
 
-    public static function getStoreAppInfolistSchema(): array
+    public static function getStoreInfolistSchema(): array
     {
         return [
             // Infolist components for the View page
@@ -123,4 +124,3 @@ class MyAiApp extends PolydockAiApp
 
 - [PolydockApp Class](./docs/PolydockApp.md)
 - [PolydockAiApp Class](./docs/PolydockAiApp.md)
-

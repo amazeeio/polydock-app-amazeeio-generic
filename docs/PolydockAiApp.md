@@ -14,30 +14,30 @@ class PolydockAiApp extends PolydockApp implements HasStoreAppFormFields
 
 ## Attributes
 
-| Attribute | Value | Description |
-|-----------|-------|-------------|
-| `#[PolydockAppTitle]` | `'Generic Lagoon AI App'` | Human-readable title displayed in admin UI |
-| `#[PolydockAppStoreFields]` | - | Enables custom Store App form fields |
+| Attribute                   | Value                     | Description                                |
+| --------------------------- | ------------------------- | ------------------------------------------ |
+| `#[PolydockAppTitle]`       | `'Generic Lagoon AI App'` | Human-readable title displayed in admin UI |
+| `#[PolydockAppStoreFields]` | -                         | Enables custom Store App form fields       |
 
 ## Interfaces
 
-| Interface | Description |
-|-----------|-------------|
+| Interface               | Description                                                       |
+| ----------------------- | ----------------------------------------------------------------- |
 | `HasStoreAppFormFields` | Provides custom form/infolist schemas for Store App configuration |
 
 ## Properties
 
-| Property | Type | Default | Description |
-|----------|------|---------|-------------|
-| `$requiresAiInfrastructure` | `bool` | `true` | Indicates this app requires AI infrastructure |
-| `$amazeeAiBackendClient` | `AmazeeAiBackendClient` | - | AI backend client instance |
+| Property                    | Type                    | Default | Description                                   |
+| --------------------------- | ----------------------- | ------- | --------------------------------------------- |
+| `$requiresAiInfrastructure` | `bool`                  | `true`  | Indicates this app requires AI infrastructure |
+| `$amazeeAiBackendClient`    | `AmazeeAiBackendClient` | -       | AI backend client instance                    |
 
 ## Traits
 
 In addition to all traits from `PolydockApp`, this class uses:
 
-| Trait | Description |
-|-------|-------------|
+| Trait                 | Description                            |
+| --------------------- | -------------------------------------- |
 | `UsesAmazeeAiBackend` | Provides AI backend client integration |
 
 ## Custom Store App Form Fields
@@ -47,12 +47,12 @@ The `PolydockAiApp` implements `HasStoreAppFormFields` interface, allowing it to
 ### Implementation
 
 ```php
-public static function getStoreAppFormSchema(): array
+public static function getStoreFormSchema(): array
 {
     return [];
 }
 
-public static function getStoreAppInfolistSchema(): array
+public static function getStoreInfolistSchema(): array
 {
     return [];
 }
@@ -70,7 +70,7 @@ use Filament\Infolists;
 
 class MyAiApp extends PolydockAiApp
 {
-    public static function getStoreAppFormSchema(): array
+    public static function getStoreFormSchema(): array
     {
         return [
             Forms\Components\Section::make('AI Infrastructure Settings')
@@ -117,7 +117,7 @@ class MyAiApp extends PolydockAiApp
         ];
     }
 
-    public static function getStoreAppInfolistSchema(): array
+    public static function getStoreInfolistSchema(): array
     {
         return [
             Infolists\Components\Section::make('AI Infrastructure Settings')
@@ -189,14 +189,14 @@ public function preDeployAppInstance(
     PolydockAppInstanceInterface $appInstance
 ): PolydockAppInstanceInterface {
     // Get the Store App and access custom field values
-    $storeApp = $appInstance->getStoreApp();
-    
+    $storeApp = $appInstance->getStore();
+
     $endpoint = $storeApp->getPolydockVariableValue('app_config_ai_backend_endpoint');
     $apiKey = $storeApp->getPolydockVariableValue('app_config_ai_backend_api_key'); // Auto-decrypted
     $modelTier = $storeApp->getPolydockVariableValue('app_config_ai_model_tier');
-    
+
     $this->info('Configuring AI with endpoint: ' . $endpoint);
-    
+
     return parent::preDeployAppInstance($appInstance);
 }
 ```
@@ -209,12 +209,12 @@ use FreedomtechHosting\PolydockAppAmazeeioGeneric\PolydockAiApp;
 class MyCustomAiApp extends PolydockAiApp
 {
     public static string $version = '1.0.0';
-    
+
     public static function getAppVersion(): string
     {
         return self::$version;
     }
-    
+
     // Override to add custom variables
     public static function getAppDefaultVariableDefinitions(): array
     {
@@ -225,16 +225,16 @@ class MyCustomAiApp extends PolydockAiApp
             ]
         );
     }
-    
+
     // Implement custom form fields
-    public static function getStoreAppFormSchema(): array
+    public static function getStoreFormSchema(): array
     {
         return [
             // Your custom Filament form components
         ];
     }
-    
-    public static function getStoreAppInfolistSchema(): array
+
+    public static function getStoreInfolistSchema(): array
     {
         return [
             // Your custom Filament infolist components
