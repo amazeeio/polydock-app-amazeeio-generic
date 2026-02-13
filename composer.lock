@@ -821,12 +821,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/amazeeio/polydock-app-lib.git",
-                "reference": "2fb7d04c7714a7c057802c3913ced52748b3b861"
+                "reference": "b779e9dac1b8fea63e9f617931991c840674436c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/amazeeio/polydock-app-lib/zipball/2fb7d04c7714a7c057802c3913ced52748b3b861",
-                "reference": "2fb7d04c7714a7c057802c3913ced52748b3b861",
+                "url": "https://api.github.com/repos/amazeeio/polydock-app-lib/zipball/b779e9dac1b8fea63e9f617931991c840674436c",
+                "reference": "b779e9dac1b8fea63e9f617931991c840674436c",
                 "shasum": ""
             },
             "require": {
@@ -853,7 +853,7 @@
                 "issues": "https://github.com/amazeeio/polydock-app-lib/issues",
                 "source": "https://github.com/amazeeio/polydock-app-lib/tree/v0.0.30"
             },
-            "time": "2026-02-13T01:07:41+00:00"
+            "time": "2026-02-13T02:15:27+00:00"
         },
         {
             "name": "fruitcake/php-cors",
