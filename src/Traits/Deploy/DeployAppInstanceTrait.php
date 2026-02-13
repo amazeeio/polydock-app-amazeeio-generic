@@ -2,8 +2,10 @@
 
 namespace FreedomtechHosting\PolydockAppAmazeeioGeneric\Traits\Deploy;
 
+use FreedomtechHosting\FtLagoonPhp\LagoonClientInitializeRequiredToInteractException;
 use FreedomtechHosting\PolydockApp\Enums\PolydockAppInstanceStatus;
 use FreedomtechHosting\PolydockApp\PolydockAppInstanceInterface;
+use FreedomtechHosting\PolydockApp\PolydockAppInstanceStatusFlowException;
 
 trait DeployAppInstanceTrait
 {
@@ -18,7 +20,7 @@ trait DeployAppInstanceTrait
      * @return PolydockAppInstanceInterface The processed app instance
      *
      * @throws PolydockAppInstanceStatusFlowException If instance is not in PENDING_DEPLOY status
-     * @throws PolydockEngineProcessPolydockAppInstanceException If the process fails
+     * @throws LagoonClientInitializeRequiredToInteractException If the lagoon client required to interact
      */
     public function deployAppInstance(PolydockAppInstanceInterface $appInstance): PolydockAppInstanceInterface
     {

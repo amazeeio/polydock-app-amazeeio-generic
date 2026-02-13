@@ -54,6 +54,9 @@ trait UsesAmazeeAiBackend
         }
     }
 
+    /**
+     * @throws PolydockAppInstanceStatusFlowException
+     */
     public function checkAmazeeAiBackendAuth(): bool
     {
         $logContext = $this->getLogContext(__FUNCTION__);
@@ -77,6 +80,9 @@ trait UsesAmazeeAiBackend
         return true;
     }
 
+    /**
+     * @throws PolydockAppInstanceStatusFlowException
+     */
     public function pingAmazeeAiBackend(): bool
     {
         $logContext = $this->getLogContext(__FUNCTION__);
@@ -107,10 +113,11 @@ trait UsesAmazeeAiBackend
             $this->error('Error pinging amazeeAI backend: ', $logContext + ['error' => $e->getMessage()]);
             throw new PolydockAppInstanceStatusFlowException('Error pinging Lagoon API: '.$e->getMessage());
         }
-
-        return false;
     }
 
+    /**
+     * @throws PolydockAppInstanceStatusFlowException
+     */
     public function getPrivateAICredentialsFromBackend(PolydockAppInstanceInterface $appInstance): array
     {
         $logContext = $this->getLogContext(__FUNCTION__);
@@ -169,7 +176,7 @@ trait UsesAmazeeAiBackend
         }
 
         $backendUserId = $backendUser['id'];
-        $backendCredentialName = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $projectName))).'-proj-creds';
+        $backendCredentialName = strtolower(trim((string) preg_replace('/[^A-Za-z0-9-]+/', '-', $projectName))).'-proj-creds';
 
         $logContext['ai_backend_user_id'] = $backendUserId;
         $logContext['ai_backend_credential_name'] = $backendCredentialName;

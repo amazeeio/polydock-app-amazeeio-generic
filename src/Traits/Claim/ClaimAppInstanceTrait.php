@@ -4,6 +4,7 @@ namespace FreedomtechHosting\PolydockAppAmazeeioGeneric\Traits\Claim;
 
 use FreedomtechHosting\PolydockApp\Enums\PolydockAppInstanceStatus;
 use FreedomtechHosting\PolydockApp\PolydockAppInstanceInterface;
+use FreedomtechHosting\PolydockApp\PolydockAppInstanceStatusFlowException;
 
 trait ClaimAppInstanceTrait
 {
@@ -18,7 +19,6 @@ trait ClaimAppInstanceTrait
      * @return PolydockAppInstanceInterface The processed app instance
      *
      * @throws PolydockAppInstanceStatusFlowException If instance is not in PENDING_UPGRADE status
-     * @throws PolydockEngineProcessPolydockAppInstanceException If the process fails
      */
     public function claimAppInstance(PolydockAppInstanceInterface $appInstance): PolydockAppInstanceInterface
     {
@@ -98,7 +98,7 @@ trait ClaimAppInstanceTrait
             $this->info('No claim script detected', $logContext);
         }
 
-        // We run this etiher way to ensure the variable is set
+        // We run this either way to ensure the variable is set
         try {
             $this->addOrUpdateLagoonProjectVariable($appInstance, 'POLYDOCK_CLAIMED_AT', date('Y-m-d H:i:s'), 'GLOBAL');
         } catch (\Exception $e) {

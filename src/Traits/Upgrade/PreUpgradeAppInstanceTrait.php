@@ -4,6 +4,7 @@ namespace FreedomtechHosting\PolydockAppAmazeeioGeneric\Traits\Upgrade;
 
 use FreedomtechHosting\PolydockApp\Enums\PolydockAppInstanceStatus;
 use FreedomtechHosting\PolydockApp\PolydockAppInstanceInterface;
+use FreedomtechHosting\PolydockApp\PolydockAppInstanceStatusFlowException;
 
 trait PreUpgradeAppInstanceTrait
 {
@@ -18,7 +19,6 @@ trait PreUpgradeAppInstanceTrait
      * @return PolydockAppInstanceInterface The processed app instance
      *
      * @throws PolydockAppInstanceStatusFlowException If instance is not in PENDING_PRE_UPGRADE status
-     * @throws PolydockEngineProcessPolydockAppInstanceException If the process fails
      */
     public function preUpgradeAppInstance(PolydockAppInstanceInterface $appInstance): PolydockAppInstanceInterface
     {

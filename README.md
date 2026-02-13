@@ -96,7 +96,7 @@ use FreedomtechHosting\PolydockAppAmazeeioGeneric\PolydockAiApp;
 #[PolydockAppStoreFields]
 class MyAiApp extends PolydockAiApp
 {
-    public static function getStoreFormSchema(): array
+    public static function getStoreAppFormSchema(): array
     {
         return [
             Forms\Components\Section::make('AI Configuration')
@@ -111,7 +111,7 @@ class MyAiApp extends PolydockAiApp
         ];
     }
 
-    public static function getStoreInfolistSchema(): array
+    public static function getStoreAppInfolistSchema(): array
     {
         return [
             // Infolist components for the View page

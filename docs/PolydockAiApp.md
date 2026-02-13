@@ -47,12 +47,12 @@ The `PolydockAiApp` implements `HasStoreAppFormFields` interface, allowing it to
 ### Implementation
 
 ```php
-public static function getStoreFormSchema(): array
+public static function getStoreAppFormSchema(): array
 {
     return [];
 }
 
-public static function getStoreInfolistSchema(): array
+public static function getStoreAppInfolistSchema(): array
 {
     return [];
 }
@@ -70,7 +70,7 @@ use Filament\Infolists;
 
 class MyAiApp extends PolydockAiApp
 {
-    public static function getStoreFormSchema(): array
+    public static function getStoreAppFormSchema(): array
     {
         return [
             Forms\Components\Section::make('AI Infrastructure Settings')
@@ -117,7 +117,7 @@ class MyAiApp extends PolydockAiApp
         ];
     }
 
-    public static function getStoreInfolistSchema(): array
+    public static function getStoreAppInfolistSchema(): array
     {
         return [
             Infolists\Components\Section::make('AI Infrastructure Settings')
@@ -227,14 +227,14 @@ class MyCustomAiApp extends PolydockAiApp
     }
 
     // Implement custom form fields
-    public static function getStoreFormSchema(): array
+    public static function getStoreAppFormSchema(): array
     {
         return [
             // Your custom Filament form components
         ];
     }
 
-    public static function getStoreInfolistSchema(): array
+    public static function getStoreAppInfolistSchema(): array
     {
         return [
             // Your custom Filament infolist components

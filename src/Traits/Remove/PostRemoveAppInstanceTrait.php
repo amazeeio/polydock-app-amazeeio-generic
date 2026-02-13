@@ -4,6 +4,7 @@ namespace FreedomtechHosting\PolydockAppAmazeeioGeneric\Traits\Remove;
 
 use FreedomtechHosting\PolydockApp\Enums\PolydockAppInstanceStatus;
 use FreedomtechHosting\PolydockApp\PolydockAppInstanceInterface;
+use FreedomtechHosting\PolydockApp\PolydockAppInstanceStatusFlowException;
 
 trait PostRemoveAppInstanceTrait
 {
@@ -18,7 +19,6 @@ trait PostRemoveAppInstanceTrait
      * @return PolydockAppInstanceInterface The processed app instance
      *
      * @throws PolydockAppInstanceStatusFlowException If instance is not in PENDING_POST_REMOVE status
-     * @throws PolydockEngineProcessPolydockAppInstanceException If the process fails
      */
     public function postRemoveAppInstance(PolydockAppInstanceInterface $appInstance): PolydockAppInstanceInterface
     {

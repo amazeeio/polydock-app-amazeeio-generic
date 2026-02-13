@@ -4,6 +4,7 @@ namespace FreedomtechHosting\PolydockAppAmazeeioGeneric\Traits\Deploy;
 
 use FreedomtechHosting\PolydockApp\Enums\PolydockAppInstanceStatus;
 use FreedomtechHosting\PolydockApp\PolydockAppInstanceInterface;
+use FreedomtechHosting\PolydockApp\PolydockAppInstanceStatusFlowException;
 
 trait PostDeployAppInstanceTrait
 {
@@ -18,7 +19,6 @@ trait PostDeployAppInstanceTrait
      * @return PolydockAppInstanceInterface The processed app instance
      *
      * @throws PolydockAppInstanceStatusFlowException If instance is not in PENDING_POST_DEPLOY status
-     * @throws PolydockEngineProcessPolydockAppInstanceException If the process fails
      */
     public function postDeployAppInstance(PolydockAppInstanceInterface $appInstance): PolydockAppInstanceInterface
     {
@@ -58,7 +58,7 @@ trait PostDeployAppInstanceTrait
         $logContext = $logContext + ['postDeployScript' => $postDeployScript, 'postDeployScriptService' => $postDeployScriptService, 'postDeployScriptContainer' => $postDeployScriptContainer];
 
         if (! empty($postDeployScript)) {
-            $this->info('Post-deploy script', $logContext + ['postDeployScript' => $postDeployScript]);
+            $this->info('Post-deploy script', $logContext);
 
             try {
                 $trialResult = $this->lagoonClient->executeCommandOnProjectEnvironment(

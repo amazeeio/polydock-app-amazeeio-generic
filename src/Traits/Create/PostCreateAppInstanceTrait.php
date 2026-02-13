@@ -4,6 +4,7 @@ namespace FreedomtechHosting\PolydockAppAmazeeioGeneric\Traits\Create;
 
 use FreedomtechHosting\PolydockApp\Enums\PolydockAppInstanceStatus;
 use FreedomtechHosting\PolydockApp\PolydockAppInstanceInterface;
+use FreedomtechHosting\PolydockApp\PolydockAppInstanceStatusFlowException;
 
 trait PostCreateAppInstanceTrait
 {
@@ -18,7 +19,6 @@ trait PostCreateAppInstanceTrait
      * @return PolydockAppInstanceInterface The processed app instance
      *
      * @throws PolydockAppInstanceStatusFlowException If instance is not in PENDING_POST_CREATE status
-     * @throws PolydockEngineProcessPolydockAppInstanceException If the process fails
      */
     public function postCreateAppInstance(PolydockAppInstanceInterface $appInstance): PolydockAppInstanceInterface
     {
@@ -31,7 +31,6 @@ trait PostCreateAppInstanceTrait
 
         $this->info($functionName.': starting', $logContext);
 
-        // Throws PolydockAppInstanceStatusFlowException
         $this->validateAppInstanceStatusIsExpectedAndConfigureLagoonClientAndVerifyLagoonValues(
             $appInstance,
             PolydockAppInstanceStatus::PENDING_POST_CREATE,
@@ -43,7 +42,6 @@ trait PostCreateAppInstanceTrait
         );
 
         if ($this->getRequiresAiInfrastructure()) {
-            // Throws PolydockAppInstanceStatusFlowException
             $this->setAmazeeAiBackendClientFromAppInstance($appInstance);
         }
 
@@ -97,7 +95,7 @@ trait PostCreateAppInstanceTrait
                 sleep(2);
                 $privateAiCredentials = $this->getPrivateAICredentialsFromBackend($appInstance);
                 $llmApiUrl = $privateAiCredentials['litellm_api_url'];
-                $llmApiHostname = preg_replace('#^https?://|/.*$#', '', $llmApiUrl);
+                $llmApiHostname = preg_replace('#^https?://|/.*$#', '', (string) $llmApiUrl);
 
                 $this->info($functionName.': app requires AI infrastructure', $logContext);
                 $this->addOrUpdateLagoonProjectVariable($appInstance, 'AI_REGION', $privateAiCredentials['region'], 'GLOBAL');
@@ -118,7 +116,7 @@ trait PostCreateAppInstanceTrait
                 $this->info($functionName.': Done injecting AI infrastructure', $logContext);
             }
 
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $this->info('Post Create Failed');
             $appInstance->setStatus(PolydockAppInstanceStatus::POST_CREATE_FAILED, 'An exception occured')->save();
 

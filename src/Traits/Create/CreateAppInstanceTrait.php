@@ -4,6 +4,7 @@ namespace FreedomtechHosting\PolydockAppAmazeeioGeneric\Traits\Create;
 
 use FreedomtechHosting\PolydockApp\Enums\PolydockAppInstanceStatus;
 use FreedomtechHosting\PolydockApp\PolydockAppInstanceInterface;
+use FreedomtechHosting\PolydockApp\PolydockAppInstanceStatusFlowException;
 
 trait CreateAppInstanceTrait
 {
@@ -18,7 +19,6 @@ trait CreateAppInstanceTrait
      * @return PolydockAppInstanceInterface The processed app instance
      *
      * @throws PolydockAppInstanceStatusFlowException If instance is not in PENDING_CREATE status
-     * @throws PolydockEngineProcessPolydockAppInstanceException If the process fails
      */
     public function createAppInstance(PolydockAppInstanceInterface $appInstance): PolydockAppInstanceInterface
     {

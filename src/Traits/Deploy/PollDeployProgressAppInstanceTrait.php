@@ -2,11 +2,17 @@
 
 namespace FreedomtechHosting\PolydockAppAmazeeioGeneric\Traits\Deploy;
 
+use FreedomtechHosting\FtLagoonPhp\LagoonClientInitializeRequiredToInteractException;
 use FreedomtechHosting\PolydockApp\Enums\PolydockAppInstanceStatus;
 use FreedomtechHosting\PolydockApp\PolydockAppInstanceInterface;
+use FreedomtechHosting\PolydockApp\PolydockAppInstanceStatusFlowException;
 
 trait PollDeployProgressAppInstanceTrait
 {
+    /**
+     * @throws LagoonClientInitializeRequiredToInteractException
+     * @throws PolydockAppInstanceStatusFlowException
+     */
     public function pollAppInstanceDeploymentProgress(PolydockAppInstanceInterface $appInstance): PolydockAppInstanceInterface
     {
         $functionName = __FUNCTION__;

@@ -2,8 +2,10 @@
 
 namespace FreedomtechHosting\PolydockAppAmazeeioGeneric\Traits\Remove;
 
+use FreedomtechHosting\FtLagoonPhp\LagoonClientInitializeRequiredToInteractException;
 use FreedomtechHosting\PolydockApp\Enums\PolydockAppInstanceStatus;
 use FreedomtechHosting\PolydockApp\PolydockAppInstanceInterface;
+use FreedomtechHosting\PolydockApp\PolydockAppInstanceStatusFlowException;
 
 trait RemoveAppInstanceTrait
 {
@@ -18,7 +20,7 @@ trait RemoveAppInstanceTrait
      * @return PolydockAppInstanceInterface The processed app instance
      *
      * @throws PolydockAppInstanceStatusFlowException If instance is not in PENDING_REMOVE status
-     * @throws PolydockEngineProcessPolydockAppInstanceException If the process fails
+     * @throws LagoonClientInitializeRequiredToInteractException If the lagoon client requires interact
      */
     public function removeAppInstance(PolydockAppInstanceInterface $appInstance): PolydockAppInstanceInterface
     {
