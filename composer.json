@@ -4,7 +4,7 @@
     "type": "library",
     "license": "MIT",
     "autoload": {
-        "psr-4": {  
+        "psr-4": {
             "FreedomtechHosting\\PolydockAppAmazeeioGeneric\\": "src/"
         }
     },
@@ -18,7 +18,7 @@
     "prefer-stable": true,
     "require": {
         "freedomtech-hosting/polydock-app": "^0.0.30",
-        "freedomtech-hosting/ft-lagoon-php": "^0.0.9",
+        "freedomtech-hosting/ft-lagoon-php": "^0.0.11",
         "freedomtech-hosting/polydock-amazeeai-backend-client-php": "^0.0.6"
     }
 }
