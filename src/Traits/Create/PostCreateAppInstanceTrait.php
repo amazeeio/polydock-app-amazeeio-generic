@@ -116,9 +116,13 @@ trait PostCreateAppInstanceTrait
                 $this->info($functionName.': Done injecting AI infrastructure', $logContext);
             }
 
-        } catch (\Exception) {
-            $this->info('Post Create Failed');
-            $appInstance->setStatus(PolydockAppInstanceStatus::POST_CREATE_FAILED, 'An exception occured')->save();
+        } catch (\Exception $e) {
+            $this->error('Post Create Failed: ' . $e->getMessage(), [
+                'exception_class' => get_class($e),
+                'exception_trace' => $e->getTraceAsString(),
+            ]);
+
+            $appInstance->setStatus(PolydockAppInstanceStatus::POST_CREATE_FAILED, 'An exception occured: ' . $e->getMessage())->save();
 
             return $appInstance;
         }
