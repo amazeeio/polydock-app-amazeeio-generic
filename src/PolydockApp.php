@@ -76,6 +76,8 @@ class PolydockApp extends PolydockAppBase
             new PolydockAppVariableDefinitionBase('lagoon-deploy-project-prefix'),
             new PolydockAppVariableDefinitionBase('lagoon-project-name'),
             new PolydockAppVariableDefinitionBase('lagoon-deploy-group-name'),
+            new PolydockAppVariableDefinitionBase('lagoon-auto-idle'),
+            new PolydockAppVariableDefinitionBase('lagoon-production-environment'),
         ];
     }
 
@@ -123,16 +125,17 @@ class PolydockApp extends PolydockAppBase
         $engine = $appInstance->getEngine();
         $this->engine = $engine;
 
+        /**
+         * @var \App\PolydockServiceProviders\PolydockServiceProviderFTLagoon
+         */
         $lagoonClientProvider = $engine->getPolydockServiceProviderSingletonInstance('PolydockServiceProviderFTLagoon');
         $this->lagoonClientProvider = $lagoonClientProvider;
 
         if (! method_exists($lagoonClientProvider, 'getLagoonClient')) {
             throw new PolydockAppInstanceStatusFlowException('Lagoon client provider does not have getLagoonClient method');
-        } else {
-            // TODO: Fix this, this is a hack to get around the fact that the lagoon client provider is not typed
-            /** @phpstan-ignore-next-line */
-            $this->lagoonClient = $this->lagoonClientProvider->getLagoonClient();
         }
+
+        $this->lagoonClient = $lagoonClientProvider->getLagoonClient();
 
         if (! $this->lagoonClient) {
             throw new PolydockAppInstanceStatusFlowException('Lagoon client not found');

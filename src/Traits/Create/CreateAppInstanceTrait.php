@@ -51,15 +51,20 @@ trait CreateAppInstanceTrait
         )->save();
 
         $addOrgOwnerToProject = true;
+        $autoIdle = (int) $appInstance->getKeyValue('lagoon-auto-idle') ?? 0;
+        $productionEnvironment = $appInstance->getKeyValue('lagoon-production-environment')
+            ?: $appInstance->getKeyValue('lagoon-deploy-branch');
+
         $createdProjectData = $this->lagoonClient->createLagoonProjectInOrganization(
-            $projectName,
-            $appInstance->getKeyValue('lagoon-deploy-git'),
-            $appInstance->getKeyValue('lagoon-deploy-branch'),
-            $appInstance->getKeyValue('lagoon-deploy-branch'),
-            $appInstance->getKeyValue('lagoon-deploy-region-id'),
-            $appInstance->getKeyValue('lagoon-deploy-private-key'),
-            $appInstance->getKeyValue('lagoon-deploy-organization-id'),
-            $addOrgOwnerToProject
+            projectName: $projectName,
+            gitUrl: $appInstance->getKeyValue('lagoon-deploy-git'),
+            branches: $appInstance->getKeyValue('lagoon-deploy-branch'),
+            productionEnvironment: $productionEnvironment,
+            clusterId: $appInstance->getKeyValue('lagoon-deploy-region-id'),
+            privateKey: $appInstance->getKeyValue('lagoon-deploy-private-key'),
+            orgId: $appInstance->getKeyValue('lagoon-deploy-organization-id'),
+            addOrgOwnerToProject: $addOrgOwnerToProject,
+            autoIdle: $autoIdle
         );
 
         if (isset($createdProjectData['error'])) {
