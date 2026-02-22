@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "07e26d2b09f74085613f101a6655e4c6",
+    "content-hash": "5d1fb0bac5a5418c2f56e175a8662dc2",
     "packages": [
         {
             "name": "blade-ui-kit/blade-heroicons",
@@ -776,16 +776,16 @@
         },
         {
             "name": "freedomtech-hosting/polydock-amazeeai-backend-client-php",
-            "version": "v0.0.7",
+            "version": "v0.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/amazeeio/polydock-amazeeai-backend-php-lib.git",
-                "reference": "e415ddbede4ed0df224c485fb53a47fc1b55a688"
+                "reference": "d95d5b4539fef11fcb0c8c598c10f853b3115540"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/amazeeio/polydock-amazeeai-backend-php-lib/zipball/e415ddbede4ed0df224c485fb53a47fc1b55a688",
-                "reference": "e415ddbede4ed0df224c485fb53a47fc1b55a688",
+                "url": "https://api.github.com/repos/amazeeio/polydock-amazeeai-backend-php-lib/zipball/d95d5b4539fef11fcb0c8c598c10f853b3115540",
+                "reference": "d95d5b4539fef11fcb0c8c598c10f853b3115540",
                 "shasum": ""
             },
             "require": {
@@ -811,9 +811,9 @@
             "description": "The Freedom Tech amazee.ai Private AI PHP library",
             "support": {
                 "issues": "https://github.com/amazeeio/polydock-amazeeai-backend-php-lib/issues",
-                "source": "https://github.com/amazeeio/polydock-amazeeai-backend-php-lib/tree/v0.0.7"
+                "source": "https://github.com/amazeeio/polydock-amazeeai-backend-php-lib/tree/v0.1.0"
             },
-            "time": "2026-02-22T02:51:12+00:00"
+            "time": "2026-02-22T03:59:51+00:00"
         },
         {
             "name": "freedomtech-hosting/polydock-app",
