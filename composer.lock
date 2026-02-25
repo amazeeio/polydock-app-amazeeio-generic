@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "190d484b252ea881f6f4ee7bff4ec224",
+    "content-hash": "d490e9a0e34c10affed2fa5eb007497b",
     "packages": [
         {
             "name": "blade-ui-kit/blade-heroicons",
@@ -734,16 +734,16 @@
         },
         {
             "name": "freedomtech-hosting/ft-lagoon-php",
-            "version": "v0.0.13",
+            "version": "v0.0.14",
             "source": {
                 "type": "git",
                 "url": "https://github.com/amazeeio/polydock-lagoon-php-lib.git",
-                "reference": "bda6bf8a51b32b3610f972ec97bbc51a2b9a3e65"
+                "reference": "bee18a240f57802fdb3aba67d0a5c220bedbfb65"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/amazeeio/polydock-lagoon-php-lib/zipball/bda6bf8a51b32b3610f972ec97bbc51a2b9a3e65",
-                "reference": "bda6bf8a51b32b3610f972ec97bbc51a2b9a3e65",
+                "url": "https://api.github.com/repos/amazeeio/polydock-lagoon-php-lib/zipball/bee18a240f57802fdb3aba67d0a5c220bedbfb65",
+                "reference": "bee18a240f57802fdb3aba67d0a5c220bedbfb65",
                 "shasum": ""
             },
             "require": {
@@ -770,9 +770,9 @@
             "description": "The Freedom Tech Lagoon PHP library",
             "support": {
                 "issues": "https://github.com/amazeeio/polydock-lagoon-php-lib/issues",
-                "source": "https://github.com/amazeeio/polydock-lagoon-php-lib/tree/v0.0.13"
+                "source": "https://github.com/amazeeio/polydock-lagoon-php-lib/tree/v0.0.14"
             },
-            "time": "2026-02-25T12:05:21+00:00"
+            "time": "2026-02-25T23:57:46+00:00"
         },
         {
             "name": "freedomtech-hosting/polydock-amazeeai-backend-client-php",
