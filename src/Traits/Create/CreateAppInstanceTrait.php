@@ -29,7 +29,7 @@ trait CreateAppInstanceTrait
         $validateLagoonProjectName = true;
         $validateLagoonProjectId = false;
 
-        $this->info($functionName.': starting', $logContext);
+        $this->info("{$functionName}: starting", $logContext);
 
         // Throws PolydockAppInstanceStatusFlowException
         $this->validateAppInstanceStatusIsExpectedAndConfigureLagoonClientAndVerifyLagoonValues(
@@ -44,7 +44,7 @@ trait CreateAppInstanceTrait
 
         $projectName = $appInstance->getKeyValue('lagoon-project-name');
 
-        $this->info($functionName.': starting for project: '.$projectName, $logContext);
+        $this->info("{$functionName}: starting for project: {$projectName}", $logContext);
         $appInstance->setStatus(
             PolydockAppInstanceStatus::CREATE_RUNNING,
             PolydockAppInstanceStatus::CREATE_RUNNING->getStatusMessage()
@@ -69,7 +69,7 @@ trait CreateAppInstanceTrait
 
         if (isset($createdProjectData['error'])) {
             // Handle both array errors (from GraphQL) and string errors (from not found)
-            $errorMessage = is_array($createdProjectData['error'])
+            $errorMessage = \is_array($createdProjectData['error'])
                 ? ($createdProjectData['error'][0]['message'] ?? json_encode($createdProjectData['error']))
                 : $createdProjectData['error'];
             $this->error($errorMessage, $logContext);
@@ -86,7 +86,7 @@ trait CreateAppInstanceTrait
 
         $appInstance->storeKeyValue('lagoon-project-id', $createdProjectData['addProject']['id']);
 
-        $this->info($functionName.': completed', $logContext + ['projectId' => $createdProjectData['addProject']['id']]);
+        $this->info("{$functionName}: completed", $logContext + ['projectId' => $createdProjectData['addProject']['id']]);
         $appInstance->setStatus(PolydockAppInstanceStatus::CREATE_COMPLETED, 'Create completed')->save();
 
         return $appInstance;
