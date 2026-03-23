@@ -52,7 +52,7 @@ class PolydockApp extends PolydockAppBase
 
     protected bool $requiresAiInfrastructure = false;
 
-    public static string $version = '0.0.1';
+    public static string $version = '0.0.2';
 
     protected LagoonClient $lagoonClient;
 
@@ -380,12 +380,17 @@ class PolydockApp extends PolydockAppBase
         $variable = $this->lagoonClient->addOrUpdateScopedVariableForProject($projectName, $variableName, $variableValue, $variableScope);
 
         if (isset($variable['error'])) {
-            $this->error('Failed to add or update '.$variableName.' variable',
+            $errorMessage = \is_array($variable['error'])
+                ? ($variable['error'][0]['message'] ?? json_encode($variable['error']))
+                : (string) $variable['error'];
+
+            $this->error("Failed to add or update {$variableName} variable",
                 $logContext + [
                     'lagoonVariable' => $variable,
                     'error' => $variable['error'],
+                    'parsed_error' => $errorMessage,
                 ]);
-            throw new \Exception('Failed to add or update '.$variableName.' variable');
+            throw new \Exception("Failed to add or update {$variableName} variable: " . $errorMessage);
         }
 
         if ($this->lagoonClient->getDebug()) {
