@@ -8,6 +8,11 @@
             "FreedomtechHosting\\PolydockAppAmazeeioGeneric\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
     "authors": [
         {
             "name": "Bryan Gruneberg",
@@ -20,5 +25,12 @@
         "freedomtech-hosting/polydock-app": "^0.0.33",
         "freedomtech-hosting/ft-lagoon-php": "^0.1",
         "freedomtech-hosting/polydock-amazeeai-backend-client-php": "^0.1"
+    },
+    "require-dev": {
+        "mockery/mockery": "^1.6.12",
+        "phpunit/phpunit": "^11.5"
+    },
+    "scripts": {
+        "phpunit": "./vendor/bin/phpunit"
     }
 }
