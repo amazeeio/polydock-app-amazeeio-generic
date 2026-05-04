@@ -96,6 +96,20 @@ trait ClaimAppInstanceTrait
             }
         } else {
             $this->info('No claim script detected', $logContext);
+
+            try {
+                $routeUrl = $this->resolveClaimUrlFromLagoonRoutes($projectName, $deployEnvironment, $logContext);
+
+                if (! empty($routeUrl)) {
+                    $appInstance->storeKeyValue('claim-command-output', $routeUrl);
+                    $appInstance->setAppUrl($routeUrl, $routeUrl, 24);
+                    $this->info('Claim URL derived from Lagoon routes', $logContext + ['routeUrl' => $routeUrl]);
+                } else {
+                    $this->warning('No usable Lagoon route found for claim fallback', $logContext);
+                }
+            } catch (\Exception $e) {
+                $this->error('Failed deriving claim URL from Lagoon routes: '.$e->getMessage(), $logContext);
+            }
         }
 
         // We run this either way to ensure the variable is set
@@ -112,5 +126,58 @@ trait ClaimAppInstanceTrait
         $appInstance->setStatus(PolydockAppInstanceStatus::POLYDOCK_CLAIM_COMPLETED, 'Claim completed')->save();
 
         return $appInstance;
+    }
+
+    private function resolveClaimUrlFromLagoonRoutes(string $projectName, string $deployEnvironment, array $logContext = []): ?string
+    {
+        if (empty($projectName) || empty($deployEnvironment)) {
+            return null;
+        }
+
+        $environment = $this->lagoonClient->getProjectEnvironmentByName($projectName, $deployEnvironment);
+        if ($environment === []) {
+            $this->warning('Lagoon environment not found for claim fallback', $logContext + [
+                'projectName' => $projectName,
+                'deployEnvironment' => $deployEnvironment,
+            ]);
+
+            return null;
+        }
+
+        $candidateRoutes = [];
+
+        $primaryRoute = trim((string) ($environment['route'] ?? ''));
+        if ($primaryRoute !== '') {
+            $candidateRoutes[] = $primaryRoute;
+        }
+
+        $routes = explode(',', (string) ($environment['routes'] ?? ''));
+        foreach ($routes as $route) {
+            $route = trim($route);
+            if ($route !== '') {
+                $candidateRoutes[] = $route;
+            }
+        }
+
+        $normalizedRoutes = [];
+        foreach ($candidateRoutes as $route) {
+            $normalizedRoutes[] = preg_match('/^https?:\/\//i', $route) === 1 ? $route : 'https://'.$route;
+        }
+
+        $normalizedRoutes = array_values(array_unique(array_filter($normalizedRoutes, static fn (string $route): bool =>
+            filter_var($route, FILTER_VALIDATE_URL) !== false
+        )));
+
+        if ($normalizedRoutes === []) {
+            return null;
+        }
+
+        foreach ($normalizedRoutes as $route) {
+            if (str_contains($route, 'frontend.')) {
+                return $route;
+            }
+        }
+
+        return $normalizedRoutes[0];
     }
 }

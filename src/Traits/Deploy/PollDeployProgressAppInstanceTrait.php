@@ -25,6 +25,7 @@ trait PollDeployProgressAppInstanceTrait
         $possibleDeploymentStatusesToPolydockAppInstanceStatus = [
             'new' => PolydockAppInstanceStatus::DEPLOY_RUNNING,
             'pending' => PolydockAppInstanceStatus::DEPLOY_RUNNING,
+            'queued' => PolydockAppInstanceStatus::DEPLOY_RUNNING,
             'running' => PolydockAppInstanceStatus::DEPLOY_RUNNING,
             'cancelled' => PolydockAppInstanceStatus::DEPLOY_FAILED,
             'error' => PolydockAppInstanceStatus::DEPLOY_FAILED,
@@ -77,13 +78,14 @@ trait PollDeployProgressAppInstanceTrait
             return $appInstance;
         }
 
-        $deploymentId = $deploymentStatus['id'] ?? null;
-        $deploymentName = $deploymentStatus['name'] ?? null;
-        $deploymentPriority = $deploymentStatus['priority'] ?? '';
-        $deploymentBuildStep = $deploymentStatus['buildStep'] ?? '';
-        $deploymentStatus = $deploymentStatus['status'] ?? '';
-        $deploymentStarted = $deploymentStatus['started'] ?? '';
-        $deploymentCompleted = $deploymentStatus['completed'] ?? '';
+        $deployment = $deploymentStatus;
+        $deploymentId = $deployment['id'] ?? null;
+        $deploymentName = $deployment['name'] ?? null;
+        $deploymentPriority = $deployment['priority'] ?? '';
+        $deploymentBuildStep = $deployment['buildStep'] ?? '';
+        $deploymentStatus = $deployment['status'] ?? '';
+        $deploymentStarted = $deployment['started'] ?? '';
+        $deploymentCompleted = $deployment['completed'] ?? '';
 
         $logContext['deploymentId'] = $deploymentId;
         $logContext['deploymentName'] = $deploymentName;
