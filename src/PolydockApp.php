@@ -377,6 +377,7 @@ class PolydockApp extends PolydockAppBase
         $logContext['variableValue'] = $variableValue;
         $logContext['variableScope'] = $variableScope;
 
+        usleep(250000);
         $variable = $this->lagoonClient->addOrUpdateScopedVariableForProject($projectName, $variableName, $variableValue, $variableScope);
 
         if (isset($variable['error'])) {

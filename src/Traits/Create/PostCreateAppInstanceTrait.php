@@ -79,17 +79,21 @@ trait PostCreateAppInstanceTrait
             //            $this->addOrUpdateLagoonProjectVariable($appInstance, "POLYDOCK_APP_TYPE", $appInstance->getAppType(), "GLOBAL");
             //            $this->addOrUpdateLagoonProjectVariable($appInstance, "POLYDOCK_APP_VERSION", self::getAppVersion(), "GLOBAL");
             $this->addOrUpdateLagoonProjectVariable($appInstance, 'POLYDOCK_APP_NAME', $appInstance->getApp()->getAppName(), 'GLOBAL');
-            //            $this->addOrUpdateLagoonProjectVariable($appInstance, "POLYDOCK_APP_DESCRIPTION", $appInstance->getApp()->getAppDescription(), "GLOBAL");
-            //            $this->addOrUpdateLagoonProjectVariable($appInstance, "POLYDOCK_APP_AUTHOR", $appInstance->getApp()->getAppAuthor(), "GLOBAL");
-            //            $this->addOrUpdateLagoonProjectVariable($appInstance, "POLYDOCK_APP_WEBSITE", $appInstance->getApp()->getAppWebsite(), "GLOBAL");
-            //            $this->addOrUpdateLagoonProjectVariable($appInstance, "POLYDOCK_APP_SUPPORT_EMAIL", $appInstance->getApp()->getAppSupportEmail(), "GLOBAL");
+            sleep(1);
             $this->addOrUpdateLagoonProjectVariable($appInstance, 'POLYDOCK_GENERATED_APP_ADMIN_USERNAME', $appInstance->getKeyValue('lagoon-generate-app-admin-username'), 'GLOBAL');
+            sleep(1);
             $this->addOrUpdateLagoonProjectVariable($appInstance, 'POLYDOCK_GENERATED_APP_ADMIN_PASSWORD', $appInstance->getKeyValue('lagoon-generate-app-admin-password'), 'GLOBAL');
+            sleep(1);
             $this->addOrUpdateLagoonProjectVariable($appInstance, 'POLYDOCK_USER_FIRST_NAME', $appInstance->getKeyValue('user-first-name'), 'GLOBAL');
+            sleep(1);
             $this->addOrUpdateLagoonProjectVariable($appInstance, 'POLYDOCK_USER_LAST_NAME', $appInstance->getKeyValue('user-last-name'), 'GLOBAL');
+            sleep(1);
             $this->addOrUpdateLagoonProjectVariable($appInstance, 'POLYDOCK_USER_EMAIL', $appInstance->getKeyValue('user-email'), 'GLOBAL');
+            sleep(1);
             $this->addOrUpdateLagoonProjectVariable($appInstance, 'POLYDOCK_APP_INSTANCE_HEALTH_WEBHOOK_URL', $appInstance->getKeyValue('polydock-app-instance-health-webhook-url'), 'GLOBAL');
+            sleep(1);
             $this->addOrUpdateLagoonProjectVariable($appInstance, 'LAGOON_FEATURE_FLAG_INSIGHTS', 'false', 'GLOBAL');
+            sleep(1);
 
             if ($this->getRequiresAiInfrastructure()) {
                 sleep(2);
@@ -97,23 +101,30 @@ trait PostCreateAppInstanceTrait
                 $llmApiUrl = $privateAiCredentials['litellm_api_url'];
                 $llmApiHostname = preg_replace('#^https?://|/.*$#', '', (string) $llmApiUrl);
 
-                $this->info($functionName.': app requires AI infrastructure', $logContext);
+                $this->info("{$functionName}: app requires AI infrastructure", $logContext);
                 $this->addOrUpdateLagoonProjectVariable($appInstance, 'AI_REGION', $privateAiCredentials['region'], 'GLOBAL');
-                sleep(4);
+                sleep(1);
 
-                $this->info($functionName.': Injecting AI DB Credentials', $logContext);
+                $this->info("{$functionName}: Injecting AI DB Credentials", $logContext);
                 $this->addOrUpdateLagoonProjectVariable($appInstance, 'AI_DB_HOST_NAME', $privateAiCredentials['database_host'], 'GLOBAL');
+                sleep(1);
                 $this->addOrUpdateLagoonProjectVariable($appInstance, 'AI_DB_NAME', $privateAiCredentials['database_name'], 'GLOBAL');
+                sleep(1);
                 $this->addOrUpdateLagoonProjectVariable($appInstance, 'AI_DB_USERNAME', $privateAiCredentials['database_username'], 'GLOBAL');
+                sleep(1);
                 $this->addOrUpdateLagoonProjectVariable($appInstance, 'AI_DB_PASSWORD', $privateAiCredentials['database_password'], 'GLOBAL');
-                sleep(4);
+                sleep(1);
 
-                $this->info($functionName.': Injecting AI LLM Credentials', $logContext);
+                $this->info("{$functionName}: Injecting AI LLM Credentials", $logContext);
                 $this->addOrUpdateLagoonProjectVariable($appInstance, 'AI_LLM_API_URL', $privateAiCredentials['litellm_api_url'], 'GLOBAL');
+                sleep(1);
                 $this->addOrUpdateLagoonProjectVariable($appInstance, 'AI_LLM_API_HOSTNAME', $llmApiHostname, 'GLOBAL');
+                sleep(1);
                 $this->addOrUpdateLagoonProjectVariable($appInstance, 'AI_LLM_API_HOST_NAME', $privateAiCredentials['litellm_api_url'], 'GLOBAL');
+                sleep(1);
                 $this->addOrUpdateLagoonProjectVariable($appInstance, 'AI_LLM_API_TOKEN', $privateAiCredentials['litellm_token'], 'GLOBAL');
-                $this->info($functionName.': Done injecting AI infrastructure', $logContext);
+                sleep(1);
+                $this->info("{$functionName}: Done injecting AI infrastructure", $logContext);
             }
 
         } catch (\Exception $e) {
@@ -122,7 +133,7 @@ trait PostCreateAppInstanceTrait
                 'exception_trace' => $e->getTraceAsString(),
             ]);
 
-            $appInstance->setStatus(PolydockAppInstanceStatus::POST_CREATE_FAILED, 'An exception occured: ' . $e->getMessage())->save();
+            $appInstance->setStatus(PolydockAppInstanceStatus::POST_CREATE_FAILED, 'An exception occurred: ' . $e->getMessage())->save();
 
             return $appInstance;
         }
