@@ -28,7 +28,7 @@
     },
     "require-dev": {
         "mockery/mockery": "^1.6.12",
-        "phpunit/phpunit": "^11.5"
+        "phpunit/phpunit": "^11.5 || ^13.0"
     },
     "scripts": {
         "phpunit": "./vendor/bin/phpunit"
